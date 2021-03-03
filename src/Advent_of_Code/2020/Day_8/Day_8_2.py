@@ -1,4 +1,5 @@
 import os
+import copy
 
 file_path = os.path.join(os.path.dirname(__file__), "input.txt")
 
@@ -13,10 +14,6 @@ split_all_lines = [[] for i in range(len(all_lines))]
 for i in range(len(all_lines)):
     split_all_lines[i] = all_lines[i].split(" ")
     split_all_lines[i].append("False")
-
-current_line_index = 0
-accumulator = 0
-current_visited = "False"
 
 
 # Tuples are (acc, jmp)
@@ -56,15 +53,29 @@ def op_switch(current_line):
     return f(n)
 
 
-while current_visited == "False":
-    current_line = split_all_lines[current_line_index]
-    acc_offset, jmp_offset = op_switch(current_line)
-    accumulator += acc_offset
-    current_line_index += jmp_offset
-    current_line[2] = "True"
-    current_line = split_all_lines[current_line_index]
-    current_visited = current_line[2]
+def run_asm(split_all_lines):
+    current_line_index = 0
+    accumulator = 0
+    i = 0
 
-print(accumulator)
+    while current_line_index < len(split_all_lines) and i < 100000:
+        current_line = split_all_lines[current_line_index]
+        acc_offset, jmp_offset = op_switch(current_line)
+        accumulator += acc_offset
+        current_line_index += jmp_offset
+        i += 1
+
+    if current_line_index >= len(split_all_lines):
+        print(accumulator)
 
 
+for i in range(len(split_all_lines)):
+    new_split_all_lines = copy.deepcopy(split_all_lines)
+    current_op = split_all_lines[i][0]
+
+    if current_op == "nop":
+        new_split_all_lines[i][0] = "jmp"
+        run_asm(new_split_all_lines)
+    elif current_op == "jmp":
+        new_split_all_lines[i][0] = "nop"
+        run_asm(new_split_all_lines)
