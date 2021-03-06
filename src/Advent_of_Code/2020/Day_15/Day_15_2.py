@@ -11,17 +11,18 @@ starting_numbers = [int(s) for s in starting_numbers]
 spoken_numbers = {}
 
 for i in range(len(starting_numbers)):
-    spoken_numbers[starting_numbers[i]] = i
+    spoken_numbers[starting_numbers[i]] = i + 1
 
 current_number = 0
-spoken_numbers[current_number] = len(starting_numbers)
-# TODO: Debug logic
-for i in range(len(spoken_numbers) + 1, 30000000 + 1):
+spoken_numbers[current_number] = len(starting_numbers) + 1
+current_number = 4
+
+for i in range(len(spoken_numbers) + 2, 30000001):
     current_number_index = spoken_numbers.get(current_number, i)
 
     if not current_number_index == i:
         old_current_number = current_number
-        current_number = current_number_index - current_number
+        current_number = i - current_number_index
         spoken_numbers[old_current_number] = i
     else:
         spoken_numbers[current_number] = i
