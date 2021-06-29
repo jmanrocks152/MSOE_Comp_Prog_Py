@@ -4,8 +4,11 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="BooruBot" />
+    <orderEntry type="module" module-name="MSOE_CS2852_Lab4" />
+    <orderEntry type="module" module-name="push_the_button_parser" />
+    <orderEntry type="module" module-name="unit_test_writer" />
   </component>
 </module>
