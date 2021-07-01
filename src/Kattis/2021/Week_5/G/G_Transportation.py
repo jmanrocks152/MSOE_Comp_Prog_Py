@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from copy import deepcopy
+from itertools import permutations
 
 
 class HopcroftKarp(object):
@@ -147,22 +148,24 @@ class HopcroftKarp(object):
         return self._matching
 
 
+# TODO: Review main, figure out why it keeps getting stuck on the same test casemayb
 def main():
-    params = input().split(" ")
+    params = input().strip().split(" ")
     num_states = int(params[0])
     num_raw_material_sites = int(params[1])
     num_factories = int(params[2])
     num_transportation_companies = int(params[3])
 
-    raw_material_sites = input().split(" ")
-    factories = input().split(" ")
+    raw_material_sites = input().strip().split(" ")
+    factories = input().strip().split(" ")
 
     transportation_companies = []
 
     for i in range(num_transportation_companies):
-        transportation_companies.append(input().split(" "))
+        transportation_companies.append(input().strip().split(" "))
 
     graph = {}
+    all_others = set([])
 
     for site in raw_material_sites:
         graph[site] = set([])
@@ -181,8 +184,8 @@ def main():
                 current_factories.append(current_state)
             else:
                 graph[current_state] = set([])
-
                 current_other.append(current_state)
+                all_others.add(current_state)
 
         for raw_material_site in current_raw_material_sites:
             for factory in current_factories:
@@ -195,11 +198,24 @@ def main():
             for other in current_other:
                 graph[other].add(factory)
 
-    # TODO: add non resource/factory states in a separate list, then remove all instances of it found in the graph's keys and values, collapsing as necessary
-    # TODO: Check values first for collapsing
+        # for pair in permutations(current_other, r=2):
+        #     graph[pair[0]].add(pair[1])
 
-    maximum_matching = HopcroftKarp(graph).maximum_matching(keys_only=True)
-    print(maximum_matching)
+    for other in all_others:
+        for value in graph.values():
+            if other in value and graph[other] is not None:
+                value.update(graph[other])
+                value.remove(other)
+            elif other in value:
+                value.remove(other)
+        graph.pop(other)
+
+    for key, value in graph.items():
+        if key in value:
+            value.remove(key)
+
+    print(HopcroftKarp(graph).maximum_matching(keys_only=True))
+    print(len(HopcroftKarp(graph).maximum_matching(keys_only=True)))
 
 
 main()
