@@ -12,6 +12,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# Found from https://pypi.org/project/hopcroftkarp/
 
 from copy import deepcopy
 from itertools import permutations
