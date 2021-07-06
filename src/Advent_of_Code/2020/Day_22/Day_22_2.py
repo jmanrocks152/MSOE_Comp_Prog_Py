@@ -12,18 +12,27 @@ def fill_queue(deck_list):
 
     return deck_queue
 
-def recursive_combat(deck_one, deck_two, deck_one_list, deck_two_list):
+# TODO: Figure this out
+def recursive_combat(deck_one, deck_two, deck_one_list, deck_two_list, player_one_cards, player_two_cards):
     if list(deck_one.queue) in deck_one_list and list(deck_two.queue) in deck_two_list:
-        pass
+        return True, player_one_cards, player_two_cards
+    else:
+        deck_one_list.append(deck_one)
+        deck_two_list.append(deck_two)
 
-    deck_one_list.append(deck_one)
-    deck_two_list.append(deck_two)
+        card_one = deck_one.get()
+        card_two = deck_two.get()
 
-    card_one = deck_one.get()
-    card_two = deck_two.get()
+        player_one_cards.append(card_one)
+        player_two_cards.append(card_two)
 
-    if card_one > len(list(deck_one.queue)) and card_two > len(list(deck_two.queue)):
-        recursive_combat(deck_one, deck_two, deck_one_list, deck_two_list)
+        if card_one > len(list(deck_one.queue)) and card_two > len(list(deck_two.queue)):
+            recursive_combat(deck_one, deck_two, deck_one_list, deck_two_list, player_one_cards, player_two_cards)
+        else:
+            if card_one > card_two:
+                return True, player_one_cards, player_two_cards
+            else:
+                pass
 
 
 file_path = os.path.join(os.path.dirname(__file__), "input.txt")
