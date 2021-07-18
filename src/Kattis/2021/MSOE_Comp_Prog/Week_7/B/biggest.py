@@ -15,6 +15,7 @@ def pairwise(iterable):
 
 out = []
 
+# There are 360 * 60 * 60 = 360 * 3600 seconds in a circle
 for _ in range(int(input())):
     params = input().split(" ")
     params = [int(param) for param in params]
